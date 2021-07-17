@@ -1,9 +1,9 @@
-function [RR_int, detect_times, mean_HR] = holsinger(MLII, start_duration, end_duration, fs, k, drawSignal, drawConsecutivesHist)
+function [RR_int, detect_times, mean_HR] = holsinger(MLII, start_duration, end_duration, fs, k, draw_signal, draw_consecutives_hist)
   
     T = 1 / fs;
     t = 0 : T : (end_duration - start_duration) - T;
     
-    if(drawSignal)
+    if(draw_signal)
         figure
         plot(t, MLII,'Color','black')
         hold on
@@ -45,8 +45,8 @@ function [RR_int, detect_times, mean_HR] = holsinger(MLII, start_duration, end_d
                  peaks(end + 1) = MLII(i - detector_ctr);
                  RR_int(end + 1) = t(i) - prev_time;
                  detect_times(end + 1) = t(i);
-                 if(drawSignal)
-                     plot(t(i), peaks(end), 'ro')
+                 if(draw_signal)
+                     plot(t(i), peaks(end), '.r', 'MarkerSize', 30)
                  end
                  prev_time = t(i);
                  k = -0.105;
@@ -61,7 +61,7 @@ function [RR_int, detect_times, mean_HR] = holsinger(MLII, start_duration, end_d
     end
     mean_HR = mean(HR);
     
-    if drawConsecutivesHist
+    if draw_consecutives_hist
         figure
         histogram(consecutives);
     end

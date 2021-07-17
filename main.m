@@ -18,14 +18,13 @@ for j = 1 : no_of_signals
     L = length(ECG);
     % sampling time 4ms
     fs = 360;
-    start_duration = 0;
+    start_duration = 100;
     end_duration = L / fs - 1;
 
     ECG1 = ECG(start_duration * fs + 1 : 1 : end_duration * fs);
     ECG1 = ECG1 - mean(ECG1);
     MLII = (ECG1 - 1024) ./ 200;
     %k = -0.129; %first value that generates 3 consecutive candidates for fs =
-    %360
     % experimentaly identified value for k which produces best results
     k = -0.105; 
 
@@ -34,9 +33,9 @@ for j = 1 : no_of_signals
     
     %% Confusion matrix and metrics %%
 
-    fileEntireDataSet = importdata(sprintf('SIGNALS/%d.txt', curr_signal));
-    orig_times = fileEntireDataSet(:,1).data;
-    orig_label = fileEntireDataSet.textdata(:,2);
+    file_entire_data_set = importdata(sprintf('SIGNALS/%d.txt', curr_signal));
+    orig_times = file_entire_data_set(:,1).data;
+    orig_label = file_entire_data_set.textdata(:,2);
     % orig_times = extractBetween(orig_times, 4, 12);
     % orig_times = cell2mat(orig_times);
     % orig_times = str2num(orig_times).';
@@ -46,7 +45,13 @@ for j = 1 : no_of_signals
 end
 
 metrics = [accuracy; precision; sensitivity];
-%plot(accuracy); hold on; plot(precision); hold on; plot(sensitivity);
+
+% uncoment these lines if you need to export metrics table to latex (converter needed, can be found as a third party package)
+% input.data = metrics;
+% latexTable(input);
+
+% plot(accuracy); hold on; plot(precision); hold on; plot(sensitivity);
+% legend('accuracy', 'precision', 'sensitivity');
 % mean(accuracy) 
 % mean(precision) 
 % mean(sensitivity)
